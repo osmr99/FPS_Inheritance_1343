@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class KillZone : MonoBehaviour
 {
-    public Rigidbody Rigidbody { get; private set; }
-
     // Start is called before the first frame update
     void Start()
     {
-        Rigidbody = GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
@@ -18,15 +16,10 @@ public class Enemy : MonoBehaviour
         
     }
 
-    
-
-    public void TakeDamage(float amount)
+    private void OnCollisionEnter(Collision collision)
     {
-
-    }
-
-    public void ApplyKnockback(Vector3 knockback)
-    {
-
+        var enemy = collision.gameObject.GetComponent<Enemy>();
+        if (enemy != null)
+            enemy.Respawn();
     }
 }

@@ -16,8 +16,9 @@ public class FPSController : MonoBehaviour
     [SerializeField] float lookSensitivityY = 1.0f;
     [SerializeField] float gravity = -9.81f;
     [SerializeField] float jumpForce = 10;
-    
+
     // private variables
+    Vector3 origin;
     Vector3 velocity;
     bool grounded;
     float xRotation;
@@ -43,6 +44,8 @@ public class FPSController : MonoBehaviour
         // start with a gun
         if(initialGun != null)
             AddGun(initialGun);
+
+        origin = transform.position;
     }
 
     // Update is called once per frame
@@ -50,7 +53,7 @@ public class FPSController : MonoBehaviour
     {
         Movement();
         Look();
-
+        HandleSwitchGun();
         FireGun();
 
         // always go back to "no velocity"
@@ -65,7 +68,7 @@ public class FPSController : MonoBehaviour
 
         if(grounded && velocity.y < 0)
         {
-            velocity.y = -0.5f;
+            velocity.y = -1;// -0.5f;
         }
 
         Vector2 movement = GetPlayerMovementVector();
@@ -96,19 +99,57 @@ public class FPSController : MonoBehaviour
         transform.Rotate(Vector3.up * lookX);
     }
 
+    void HandleSwitchGun()
+    {
+        if (equippedGuns.Count == 0)
+            return;
+
+        if(Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            gunIndex++;
+            if (gunIndex > equippedGuns.Count - 1)
+                gunIndex = 0;
+
+            EquipGun(equippedGuns[gunIndex]);
+        }
+
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            gunIndex--;
+            if (gunIndex < 0)
+                gunIndex = equippedGuns.Count - 1;
+
+            EquipGun(equippedGuns[gunIndex]);
+        }
+    }
+
     void FireGun()
     {
+        // don't fire if we don't have a gun
+        if (currentGun == null)
+            return;
+
+        // pressed the fire button
         if(GetPressFire())
         {
             currentGun?.AttemptFire();
+        }
+
+        // holding the fire button (for automatic)
+        else if(GetHoldFire())
+        {
+            if (currentGun.AttemptAutomaticFire())
+                currentGun?.AttemptFire();
         }
     }
 
     void EquipGun(Gun g)
     {
         // disable current gun, if there is one
+        currentGun?.Unequip();
         currentGun?.gameObject.SetActive(false);
 
+        // enable the new gun
         g.gameObject.SetActive(true);
         g.transform.parent = gunHold;
         g.transform.localPosition = Vector3.zero;
@@ -134,6 +175,11 @@ public class FPSController : MonoBehaviour
     public void IncreaseAmmo(int amount)
     {
         currentGun.AddAmmo(amount);
+    }
+
+    public void Respawn()
+    {
+        transform.position = origin;
     }
 
     // Input methods
@@ -174,5 +220,12 @@ public class FPSController : MonoBehaviour
             var knockbackAngle = (transform.position - collisionPoint).normalized;
             velocity = (20 * knockbackAngle);
         }
+
+        if (hit.gameObject.GetComponent <KillZone>())
+        {
+            Respawn();
+        }
     }
+
+
 }

@@ -7,7 +7,9 @@ public class Projectile : MonoBehaviour
 {
     float damageAmount;
     float speed;
-    UnityAction OnHit;
+    float knockback;
+    float lifetime;
+    UnityAction<HitData> OnHit;
 
     // Start is called before the first frame update
     void Start()
@@ -21,13 +23,16 @@ public class Projectile : MonoBehaviour
         
     }
 
-    public void Initialize(float damage, float velocity, UnityAction onHit)
+    public void Initialize(float damage, float velocity, float life, float force, UnityAction<HitData> onHit)
     {
         damageAmount = damage;
         speed = velocity;
+        lifetime = life;
+        knockback = force;
         OnHit += onHit;
 
         GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        Destroy(gameObject, lifetime);
         
     }
 
@@ -40,10 +45,23 @@ public class Projectile : MonoBehaviour
             direction.Normalize();
 
             Debug.Log("hit enemy trigger");
-            target.Hit(direction * speed * 0.1f, damageAmount);
-            OnHit?.Invoke();
+            target.Hit(direction * knockback, damageAmount);
+
+            HitData hd = new HitData();
+            hd.target = target;
+            hd.direction = direction;
+            hd.location = transform.position;
+
+            OnHit?.Invoke(hd);
         }
 
         Destroy(gameObject);
     }
+}
+
+public class HitData
+{
+    public Vector3 location;
+    public Vector3 direction;
+    public Damageable target;
 }

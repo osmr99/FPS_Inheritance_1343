@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// gun base class
 public class Gun : MonoBehaviour
 {
-    FPSController player;
+    protected FPSController player;
 
     // references
-    [SerializeField] Transform gunBarrelEnd;
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Animator anim;
+    [SerializeField] protected Transform gunBarrelEnd;
+    [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] protected Animator anim;
 
     // stats
-    [SerializeField] int maxAmmo;
-    [SerializeField] float timeBetweenShots = 0.1f;
+    [SerializeField] protected int maxAmmo;
+    [SerializeField] protected float timeBetweenShots = 0.1f;
+    [SerializeField] protected bool isAutomatic = false;
 
     // private variables
-    int ammo;
-    float elapsed = 0;
+    protected int ammo;
+    protected float elapsed = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,14 @@ public class Gun : MonoBehaviour
 
     public virtual void Unequip() { }
 
+    public bool AttemptAutomaticFire()
+    {
+        if (!isAutomatic)
+            return false;
+
+        return true;
+    }
+
     public virtual bool AttemptFire()
     {
         if (ammo <= 0)
@@ -49,12 +59,6 @@ public class Gun : MonoBehaviour
         {
             return false;
         }
-
-        Debug.Log("Bang");
-        Instantiate(bulletPrefab, gunBarrelEnd.transform.position, gunBarrelEnd.rotation);
-        anim.SetTrigger("shoot");
-        timeBetweenShots = 0;
-        ammo -= 1;
 
         return true;
     }
