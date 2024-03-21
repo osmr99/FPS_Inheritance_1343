@@ -110,10 +110,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e531237b1eeb184e9d1f433381e6a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 2907611458581148245}
   OnHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2907611458581148245}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: ApplyKnockback
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  damageNumberPrefab: {fileID: 8100861371452753500, guid: 807a7c123dacec04ca9ad6f9eb6e2660, type: 3}
 --- !u!1 &2907611458581148244
 GameObject:
   m_ObjectHideFlags: 0

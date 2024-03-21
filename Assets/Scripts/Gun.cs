@@ -31,6 +31,12 @@ public class Gun : MonoBehaviour
     void Update()
     {
         elapsed += Time.deltaTime;
+
+        // cheat code to refill ammo
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            AddAmmo(999);
+        }
     }
 
     public virtual void Equip(FPSController p)
@@ -63,8 +69,16 @@ public class Gun : MonoBehaviour
         return true;
     }
 
+    public virtual bool AttemptAltFire()
+    {
+        return false;
+    }
+
     public virtual void AddAmmo(int amount)
     {
         ammo += amount;
+
+        if (ammo > maxAmmo)
+            ammo = maxAmmo;
     }
 }

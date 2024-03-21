@@ -5,25 +5,38 @@ using UnityEngine.Events;
 
 public class Damageable : MonoBehaviour
 {
-    [SerializeField] Enemy owner;
-    public UnityEvent OnHit;
+    [SerializeField] float maxHp = 100;
+    public UnityEvent<Vector3> OnHit;
+    [SerializeField] GameObject damageNumberPrefab;
+
+    float currentHp;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Initialize();   
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize()
     {
-        
+        currentHp = maxHp;
     }
 
     public void Hit(Vector3 knockback, float damageAmount)
     {
         //owner.ApplyKnockback(knockback);
-        owner.Rigidbody.AddForce(knockback, ForceMode.Impulse);
-        owner.TakeDamage(damageAmount);
+        OnHit.Invoke(knockback);//, damageAmount);
+        TakeDamage(damageAmount);
+    }
+
+    public void TakeDamage(float amount)
+    {
+        currentHp -= amount;
+
+        if (currentHp < 0)
+            currentHp = 0;
+
+        var damageNumber = Instantiate(damageNumberPrefab, transform.position, Quaternion.identity);
+        damageNumber.GetComponent<DamageNumber>().SetNumber(amount);
     }
 }

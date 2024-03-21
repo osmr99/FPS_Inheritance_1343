@@ -141,6 +141,12 @@ public class FPSController : MonoBehaviour
             if (currentGun.AttemptAutomaticFire())
                 currentGun?.AttemptFire();
         }
+
+        // pressed the alt fire button
+        if (GetPressAltFire())
+        {
+            currentGun?.AttemptAltFire();
+        }
     }
 
     void EquipGun(Gun g)
@@ -192,6 +198,11 @@ public class FPSController : MonoBehaviour
     bool GetHoldFire()
     {
         return Input.GetButton("Fire1");
+    }
+
+    bool GetPressAltFire()
+    {
+        return Input.GetButtonDown("Fire2");
     }
 
     Vector2 GetPlayerMovementVector()
