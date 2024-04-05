@@ -44,7 +44,7 @@ Animator:
   m_GameObject: {fileID: 755260812672424441}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 745f626a2abdc9e4aa1163ffe2fd3224, type: 2}
+  m_Controller: {fileID: 22100000, guid: 0d48fd3e292722640ba37aabe2f1249e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 487163690456666478, guid: 8eca411acead9e64e8f7c5fa7bc3db2c, type: 3}
   anim: {fileID: 1911386990827752943}
   maxAmmo: 100
-  timeBetweenShots: 0.05
+  timeBetweenShots: 0.1
   isAutomatic: 1
 --- !u!1 &1020397471545645410
 GameObject:
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 1951649859237371963}
   - component: {fileID: 6620369991027987738}
   m_Layer: 11
-  m_Name: Gun Pickup (2)
+  m_Name: Automatic Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
