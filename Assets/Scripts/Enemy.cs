@@ -28,5 +28,6 @@ public class Enemy : MonoBehaviour
     public void Respawn()
     {
         transform.position = origin;
+        Rigidbody.AddForce(Vector3.zero, ForceMode.Impulse);
     }
 }
