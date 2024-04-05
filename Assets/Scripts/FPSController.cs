@@ -158,10 +158,7 @@ public class FPSController : MonoBehaviour
         // enable the new gun
         g.gameObject.SetActive(true);
         g.transform.parent = gunHold;
-        if (g.name == "HomeRunBat")
-            g.transform.localPosition = new Vector3(-0.02f, 0.22f, 0);
-        else
-            g.transform.localPosition = Vector3.zero;
+        g.transform.localPosition = Vector3.zero;
 
 
         currentGun = g;

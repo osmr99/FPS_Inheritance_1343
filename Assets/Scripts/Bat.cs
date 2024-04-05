@@ -4,21 +4,31 @@ using UnityEngine;
 
 public class Bat : Gun
 {
+    int damage;
+    [SerializeField] int force;
+    [SerializeField] AudioSource sound;
     public override bool AttemptFire()
     {
         if (!base.AttemptFire())
             return false;
 
-        var b = Instantiate(bulletPrefab, gunBarrelEnd.transform.position, gunBarrelEnd.rotation);
-        b.GetComponent<Projectile>().Initialize(25, 5, 0.05f, 50, null); // version without special effect
+        damage = Random.Range(26, 34);
 
+        var b = Instantiate(bulletPrefab, gunBarrelEnd.transform.position, gunBarrelEnd.rotation);
+        b.GetComponent<Projectile>().Initialize(damage, 1, 0.02f, force, null); // version without special effect
+
+        sound?.Play();
 
         anim.SetTrigger("shoot");
         elapsed = 0;
         //ammo -= 1;
 
-        Debug.Log("Swing");
-
         return true;
+    }
+
+    public override void Equip(FPSController p)
+    {
+        base.Equip(p);
+        transform.localPosition = new Vector3(-0.02f, 0.22f, 0);
     }
 }

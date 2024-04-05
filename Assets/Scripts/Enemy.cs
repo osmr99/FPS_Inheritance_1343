@@ -29,5 +29,6 @@ public class Enemy : MonoBehaviour
     {
         transform.position = origin;
         Rigidbody.AddForce(Vector3.zero, ForceMode.Impulse);
+        Rigidbody.velocity = Vector3.zero;
     }
 }

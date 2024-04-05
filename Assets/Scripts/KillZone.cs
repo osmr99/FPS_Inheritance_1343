@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class KillZone : MonoBehaviour
 {
+    [SerializeField] AudioSource sound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,7 @@ public class KillZone : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        sound?.Play();
         var enemy = collision.gameObject.GetComponent<Enemy>();
         if (enemy != null)
             enemy.Respawn();
