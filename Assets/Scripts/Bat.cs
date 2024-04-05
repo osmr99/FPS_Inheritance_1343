@@ -21,7 +21,8 @@ public class Bat : Gun
 
         anim.SetTrigger("shoot");
         elapsed = 0;
-        //ammo -= 1;
+        //ammo -= 1; Max ammo must be 1 in order to swing the bat infinite times, the ammo won't ever decrease
+        // so this can work correctly.
 
         return true;
     }
@@ -31,4 +32,5 @@ public class Bat : Gun
         base.Equip(p);
         transform.localPosition = new Vector3(-0.02f, 0.22f, 0);
     }
+
 }

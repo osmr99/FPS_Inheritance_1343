@@ -11,7 +11,7 @@ public class Shotgun : Gun
             return false;
 
         var b = Instantiate(bulletPrefab, gunBarrelEnd.transform.position, gunBarrelEnd.rotation);
-        b.GetComponent<Projectile>().Initialize(10, 100, 0.5f, 25, null); // version without special effect
+        b.GetComponent<Projectile>().Initialize(40, 10, 0.1f, 25, null); // version without special effect
 
         Instantiate(prefabShotgunBlast, gunBarrelEnd.transform.position, transform.rotation);
 
